@@ -47,17 +47,27 @@ $(document).ready(function() {
   }
 
   // Render Mushrooms
+  mushrooms = [];
+
   function renderMushrooms(){
     var mushroomCount = 0;
-    renderMushroom(1);
+    renderMushroom(1, 100, 100, 13, 1, "magic");
     renderMushroom(2);
     renderMushroom(3);
 
-  function renderMushroom(tree) {
+  function renderMushroom(tree, x, y, z, scale, name) {
     var mushroomNumber = getRandomInt(5, 10);
     for (var i = 0; i < mushroomNumber; i++) {
       varyMushroom();
-      // Render Mushrooms
+      var mushroom = {
+        id: mushroomCount, 
+        x: x,
+        y: y,
+        z: z,
+        scale: scale,
+        name: name
+      };
+      mushrooms.push(mushroom);
       $('#tree-' + (tree - 1)).append('<img id="mushroom-' + mushroomCount + '" class="mushroom" src="assets/mushroom/00' + mushroomFrame + '.png"/>');
       $('#mushroom-' + mushroomCount).css({"left": (mushroomX * i + 10), "bottom": mushroomY });
       mushroomCount += 1;
