@@ -4,7 +4,7 @@ $(document).ready(function() {
     function getRandomInt(min, max) {
       return Math.floor(Math.random() * (max - min)) + min;
     }
-
+    
   // Render Background
   function renderBackground(type) {
     if (type == "peru") {
@@ -78,21 +78,20 @@ $(document).ready(function() {
   renderMushrooms();
 });
 
-// Sprite Constructor
-function Sprite (type) {
-  this.type = type;
-}
-
-Sprite.prototype.setProperties= function(x, y, z, scale, name) {
+// Mushroom Constructor
+var mushroomCount = 0;
+function Mushroom(x, y, z, scale, name) {
+  this.id = mushroomCount;
   this.x = x;
   this.y = y;
   this.z = z;
   this.scale = scale;
-  return this;
-};
+  this.name = name;
+  mushroomCount += 1;
+}
 
-var mushroom = new Sprite();
-mushroom.setProperties(100, 100, 13, 1, "magic");
-  
+var mushroom = new Mushroom(100, 100, 13, 1, "magic");
+
+
 // Make function that generates random x,y displacement from baseline nodes and width fluctuations
 //
