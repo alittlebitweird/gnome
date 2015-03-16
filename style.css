@@ -1,0 +1,53 @@
+body {
+  background: #344C33;
+  overflow: hidden;
+}
+
+#window {
+  margin-left: -8px;
+}
+
+.background {
+  background-size: cover;
+  position: absolute;
+  top: 0;
+}
+
+#peru {
+  background-image: url('assets/pano2/000.png');
+  width: 2048px;
+  height: 581px;
+}
+
+.tree {
+  position: relative;
+  margin-top: -500px;
+  z-index: 9;
+}
+
+.pine {
+  background-image: url('assets/tree/000.png');
+  width: 528px;
+  height: 992px; 
+  top: -450px;
+}
+
+.mushroom {
+  position: absolute;
+  z-index: 11;
+}
+
+.ground {
+  display: inline-block;
+  position: absolute;
+  margin: 0 -5px;
+  top: 500px;
+  z-index: 10;
+}
+
+.ground-grass {
+  background-image: url('assets/ground/000.png');
+  width: 475px;
+  height: 125px;
+}
+
