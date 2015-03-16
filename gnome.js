@@ -37,12 +37,15 @@ function renderGround(type, amount) {
 trees = [];
 treeCount = 0;
 function renderTrees() {
-  renderTree("pine", 1, 100);
+  renderTree("pine", 1, 250);
   renderTree("pine", 2, 200);
   renderTree("pine", 2, 20);
+  renderTree("pine", 3, 50);
+  renderTree("pine", 4, 0);
+  renderTree("pine-foreground", 1, 100, 50, 15, 2);
 }
  
-function renderTree(type, ground, x, y, z) {
+function renderTree(type, ground, x, y, z, scale) {
   // Tree Variance
   var isFlipped = Boolean(Math.floor(Math.random() * 2));
   var  sizeVariance = (getRandomInt(50, 125) / 100 );
@@ -51,6 +54,9 @@ function renderTree(type, ground, x, y, z) {
   } 
   if (!y) {
     y = -425 * Math.abs(sizeVariance);
+  }
+  if (scale) {
+    sizeVariance = scale;
   }
   var height = Math.abs(992 * sizeVariance);
   var width = Math.abs(528 * sizeVariance);
