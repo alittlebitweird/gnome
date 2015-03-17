@@ -7,7 +7,7 @@ function getRandomInt(min, max) {
 // Render Background
 function renderBackground(type) {
   if (type == "peru") {
-    $('#window').append('<div id="peru" class="background">');
+    $('#container').append('<div id="peru" class="background">');
   }
 }
 
@@ -22,7 +22,7 @@ function renderGround(type, amount) {
         type: type,
         x: (475 * i)
       };
-      $('#window').append('<div id="ground-' + totalGrounds + '" class="ground ground-grass">');
+      $('#container').append('<div id="ground-' + totalGrounds + '" class="ground ground-grass">');
       $('#ground-' + totalGrounds).css({'left':((totalGrounds) * 475) + 'px'});
       if (i % 2) {
       $('#ground-' + totalGrounds).css({'transform':'scaleX(-1)'});
@@ -37,12 +37,12 @@ function renderGround(type, amount) {
 trees = [];
 treeCount = 0;
 function renderTrees() {
-  renderTree("pine", 1, 250);
+  renderTree("pine", 0, 0);
+  renderTree("pine", 1, 20);
   renderTree("pine", 2, 200);
-  renderTree("pine", 2, 20);
   renderTree("pine", 3, 50);
   renderTree("pine", 4, 0);
-  renderTree("pine-foreground", 1, 100, 50, 15, 2);
+  //renderTree("pine-foreground", 1, 100, 50, 15, 2);
 }
  
 function renderTree(type, ground, x, y, z, scale) {
@@ -66,9 +66,10 @@ function renderTree(type, ground, x, y, z, scale) {
     id: treeCount,
     type: type,
     ground: grounds[ground],
-    x: grounds[ground].x + x - 720,
+    x: grounds[ground].x + x,
     y: y,
     z: z,
+    center: (528 / 2),
     scale: sizeVariance,
     isFlipped: isFlipped,
     height: height,
@@ -77,8 +78,10 @@ function renderTree(type, ground, x, y, z, scale) {
   trees.push(tree);
   
   // Render Tree
-  $('#window').append('<div id="tree-' + tree.id + '" class="tree ' + tree.type + '">');
+  $('#container').append('<div id="tree-' + tree.id + '" class="tree ' + tree.type + '">');
   $('#tree-' + tree.id).css({'left': tree.x + 'px', 'top': tree.y + 'px', 'transform': 'scaleX(' + tree.scale + ') scaleY(' + Math.abs(tree.scale) + ')'});
+  $('#container').append('<div id="marker-' + tree.id + '" class="marker">');
+  $('#marker-' + tree.id).css({'left': tree.x + tree.center - 5 + 'px', 'top': '525px'});
   treeCount += 1;
 }
 
@@ -89,6 +92,8 @@ function renderMushrooms(){
   renderMushroom(0);
   renderMushroom(1);
   renderMushroom(2);
+  renderMushroom(3);
+  renderMushroom(4);
 }
 
 function renderMushroom(tree, x, y, z, frame, name) {
@@ -99,14 +104,14 @@ function renderMushroom(tree, x, y, z, frame, name) {
     var mushroom = {
       id: mushroomCount, 
       tree: trees[tree], 
-      x: (mushroomX * i + 10),
+      x: (trees[tree].center + i * 20 - 475),
       y: 500, 
       z: 12,
       frame: mushroomFrame,
       name: name
     };
     mushrooms.push(mushroom);
-    $('#window').append('<img id="mushroom-' + mushroom.id + '" class="mushroom" src="assets/mushroom/00' + mushroom.frame + '.png"/>');
+    $('#container').append('<img id="mushroom-' + mushroom.id + '" class="mushroom" src="assets/mushroom/00' + mushroom.frame + '.png"/>');
     $('#mushroom-' + mushroom.id).css({"left": mushroom.x, "top": mushroom.y + 'px' });
     mushroomCount += 1;
   }
