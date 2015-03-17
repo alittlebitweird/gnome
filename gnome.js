@@ -80,8 +80,8 @@ function renderTree(type, ground, x, y, z, scale) {
   // Render Tree
   $('#container').append('<div id="tree-' + tree.id + '" class="tree ' + tree.type + '">');
   $('#tree-' + tree.id).css({'left': tree.x + 'px', 'top': tree.y + 'px', 'transform': 'scaleX(' + tree.scale + ') scaleY(' + Math.abs(tree.scale) + ')'});
-  $('#container').append('<div id="marker-' + tree.id + '" class="marker">');
-  $('#marker-' + tree.id).css({'left': tree.x + tree.center - 5 + 'px', 'top': '525px'});
+  //$('#container').append('<div id="marker-' + tree.id + '" class="marker">');
+  //$('#marker-' + tree.id).css({'left': tree.x + tree.center - 5 + 'px', 'top': '525px'});
   treeCount += 1;
 }
 
@@ -97,15 +97,15 @@ function renderMushrooms(){
 }
 
 function renderMushroom(tree, x, y, z, frame, name) {
-  var mushroomNumber = getRandomInt(5, 10);
+  var mushroomNumber = getRandomInt(8, 12);
   for (var i = 0; i < mushroomNumber; i++) {
-    varyMushroom();
+    varyMushroom(i);
     // Create Mushroom Object, set tree value to tree object
     var mushroom = {
       id: mushroomCount, 
       tree: trees[tree], 
-      x: (trees[tree].center + i * 20 - 475),
-      y: 500, 
+      x: (trees[tree].center + trees[tree].x + (i * getRandomInt(25, 30) - 100)),
+      y: mushroomY, 
       z: 12,
       frame: mushroomFrame,
       name: name
@@ -114,15 +114,32 @@ function renderMushroom(tree, x, y, z, frame, name) {
     $('#container').append('<img id="mushroom-' + mushroom.id + '" class="mushroom" src="assets/mushroom/00' + mushroom.frame + '.png"/>');
     $('#mushroom-' + mushroom.id).css({"left": mushroom.x, "top": mushroom.y + 'px' });
     mushroomCount += 1;
+    $('#marker-' + tree.id).css({'left': tree.x + tree.center - 5 + 'px', 'top': '525px'});
   }
 }
   
 // Generate mushroom variance
-function varyMushroom() {
+function varyMushroom(i) {
+  // Generate realistic spread of mushroom size
+  if (i <= 2) {
+    mushroomFrame = getRandomInt(0, 3); 
+  } else if (i <= 5 && i > 2) {
+    mushroomFrame = getRandomInt(4, 6);
+  } else if (i <= 12 && i > 4) {
+    mushroomFrame = getRandomInt(0, 3);
+  }
+  // Generate y variance 
   mushroomX = Math.round(Math.random() * 100);
-  mushroomY = Math.round(Math.random() * 5 + 15);
-  mushroomFrame = getRandomInt(0, 6); 
+  if (mushroomFrame <= 2) {
+    mushroomY = getRandomInt(510, 520);
+  } else if (mushroomFrame > 4) {
+    mushroomY = getRandomInt(500, 510);
+  } else {
+    mushroomY = getRandomInt(500, 510);
+  }
 }
+
+
 
 $(document).ready(function() {
   renderBackground('peru');
