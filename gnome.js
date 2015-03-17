@@ -104,7 +104,7 @@ function renderMushroom(tree, x, y, z, frame, name) {
     var mushroom = {
       id: mushroomCount, 
       tree: trees[tree], 
-      x: (trees[tree].center + trees[tree].x + (i * getRandomInt(25, 30) - 100)),
+      x: (trees[tree].center + trees[tree].x + (i * getRandomInt(20, 40) - 100)),
       y: mushroomY, 
       z: 12,
       frame: mushroomFrame,
@@ -124,7 +124,7 @@ function varyMushroom(i) {
   if (i <= 2) {
     mushroomFrame = getRandomInt(0, 3); 
   } else if (i <= 5 && i > 2) {
-    mushroomFrame = getRandomInt(4, 6);
+    mushroomFrame = getRandomInt(3, 6);
   } else if (i <= 12 && i > 4) {
     mushroomFrame = getRandomInt(0, 3);
   }
@@ -139,6 +139,62 @@ function varyMushroom(i) {
   }
 }
 
+// Render Grass
+grasses = [];
+grassesCount = 0;
+function renderGrasses(){
+  renderGrass(0);
+  renderGrass(1);
+  renderGrass(2);
+  renderGrass(3);
+  renderGrass(4);
+}
+
+function renderGrass(tree, x, y, z, frame, name) {
+  var grassNumber = getRandomInt(4, 6);
+  for (var i = 0; i < grassNumber; i++) {
+    varyGrass(i, tree);
+    // Create Grass Object, set tree value to tree object
+    var grass = {
+      id: grassesCount, 
+      tree: trees[tree], 
+      x: (trees[tree].x + (i * 100 )),
+      y: grassY, 
+      z: 12,
+      frame: grassFrame,
+      name: name
+    };
+    grasses.push(grass);
+    $('#container').append('<img id="grass-' + grass.id + '" class="grass" src="assets/grass/00' + grass.frame + '.png"/>');
+    $('#grass-' + grass.id).css({"left": grass.x, "top": grass.y + 'px' });
+    grassesCount += 1;
+    $('#marker-' + tree.id).css({'left': tree.x + tree.center - 5 + 'px', 'top': '525px'});
+  }
+}
+
+// Generate grass variance
+function varyGrass(i, tree) {
+  // Generate y variance 
+  grassFrame = getRandomInt(0, 2); 
+  if (grassFrame <= 1) {
+    grassY = getRandomInt(505, 510);
+  } else if (grassFrame > 4) {
+    grassY = getRandomInt(480, 480);
+  } else {
+    grassY = getRandomInt(480, 480);
+  }
+  grassX = trees[tree].x + (i * 100);
+  if (grassX < 100) {
+    grassY -= 10;
+  } else if (grassX < 200 && grassX > 100) {
+    grassY -= 5;
+  } else if (grassX < 650 && grassX > 450) {
+    grassY -= 5;
+  } else if (grassX < 1050 && grassX > 700) {
+    grassY -= 15;
+  }
+}
+
 
 
 $(document).ready(function() {
@@ -146,6 +202,7 @@ $(document).ready(function() {
   renderGround("grass", 5);
   renderTrees();
   renderMushrooms();
+  renderGrasses();
 });
 
 

@@ -61,13 +61,14 @@ img {
 
 .mushroom {
   position: absolute;
-  transform: scale(.75);
+  transform: scale(.65);
   z-index: 12;
   cursor: pointer;
 }
 
 .grass {
   position: absolute;
+  transform: scale(.75);
   z-index: 11;
 }
 
