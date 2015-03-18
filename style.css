@@ -1,17 +1,10 @@
 body {
   background: #344C33;
-  overflow: hidden;
 }
 
 img {
   max-width: 100%;
   height: auto;
-}
-
-@media {
-  img {
-    width: auto; /* for ie 8 */
-  }
 }
 
 .marker {
@@ -27,15 +20,21 @@ img {
 }
 
 .background {
-  background-size: cover;
   position: absolute;
   top: 0;
 }
 
-#peru {
+#peru-1 {
+  background-image: url('assets/pano2/001.png');
+  width: 2048px;
+  height: 581px;
+}
+
+#peru-2 {
   background-image: url('assets/pano2/000.png');
   width: 2048px;
   height: 581px;
+  left: 2048px;
 }
 
 .tree {

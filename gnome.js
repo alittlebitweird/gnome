@@ -7,7 +7,9 @@ function getRandomInt(min, max) {
 // Render Background
 function renderBackground(type) {
   if (type == "peru") {
-    $('#container').append('<div id="peru" class="background">');
+
+    $('#container').append('<div id="peru-1" class="background" data-stellar-ratio="0.25">');
+    $('#container').append('<div id="peru-2" class="background" data-stellar-ratio="0.25">');
   }
 }
 
@@ -22,7 +24,7 @@ function renderGround(type, amount) {
         type: type,
         x: (475 * i)
       };
-      $('#container').append('<div id="ground-' + totalGrounds + '" class="ground ground-grass">');
+      $('#container').append('<div id="ground-' + totalGrounds + '" class="ground ground-grass" data-stellar-ratio="1">');
       $('#ground-' + totalGrounds).css({'left':((totalGrounds) * 475) + 'px'});
       if (i % 2) {
       $('#ground-' + totalGrounds).css({'transform':'scaleX(-1)'});
@@ -203,6 +205,9 @@ $(document).ready(function() {
   renderTrees();
   renderMushrooms();
   renderGrasses();
+
+  // Parallax
+  $(window).stellar();
 });
 
 
