@@ -1,3 +1,48 @@
+// Request Animation Frame
+(function() {
+  var requestAnimationFrame = window.requestAnimationFrame || 
+  window.mozRequestAnimationFrame || 
+  window.webkitRequestAnimationFrame || 
+  window.msRequestAnimationFrame;
+  window.requestAnimationFrame = requestAnimationFrame;
+})();
+
+
+// Set vars
+var canvas = document.getElementById("canvas"),
+    ctx = canvas.getContext("2d"),
+    width = 500,
+    height = 200,
+    player = {
+      x: width/2,
+      y: height - 5,
+      width: 5,
+      height: 5,
+      speed: 3,
+      velX: 0,
+      velY: 0,
+      jumping: false
+    },
+    keys = [],
+    friction = 0.8,
+    gravity = 0.3;
+
+// Resize canvas to fill window
+  window.addEventListener('resize', resizeCanvas, false);
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    update();
+  }
+
+  resizeCanvas();
+  function update() {
+
+  }
+
+
+
 // Global Tools
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -16,6 +61,7 @@ function renderBackground(type) {
 function renderGround(type, amount) {
   grounds = [];
   var totalGrounds = 0;
+  $('#container').append('<div id="grounds"></div>');
   if (type == "grass") {
     for (var i = 0; i < amount + 1; i++) {
       var ground = {
@@ -23,7 +69,7 @@ function renderGround(type, amount) {
         type: type,
         x: (475 * i)
       };
-      $('#container').append('<div id="ground-' + totalGrounds + '" class="ground ground-grass" data-stellar-ratio="1">');
+      $('#grounds').append('<div id="ground-' + totalGrounds + '" class="ground ground-grass" data-stellar-ratio="1">');
       $('#ground-' + totalGrounds).css({'left':((totalGrounds) * 475) + 'px'});
       if (i % 2) {
       $('#ground-' + totalGrounds).css({'transform':'scaleX(-1)'});
@@ -38,6 +84,7 @@ function renderGround(type, amount) {
 trees = [];
 treeCount = 0;
 function renderTrees() {
+  $('#container').append('<div id="trees"></div>');
   renderTree("pine", 0, 0);
   renderTree("pine", 1, 20);
   renderTree("pine", 2, 200);
@@ -79,7 +126,7 @@ function renderTree(type, ground, x, y, z, scale) {
   trees.push(tree);
   
   // Render Tree
-  $('#container').append('<div id="tree-' + tree.id + '" class="tree ' + tree.type + '">');
+  $('#trees').append('<div id="tree-' + tree.id + '" class="tree ' + tree.type + '">');
   $('#tree-' + tree.id).css({'left': tree.x + 'px', 'top': tree.y + 'px', 'transform': 'scaleX(' + tree.scale + ') scaleY(' + Math.abs(tree.scale) + ')'});
   //$('#container').append('<div id="marker-' + tree.id + '" class="marker">');
   //$('#marker-' + tree.id).css({'left': tree.x + tree.center - 5 + 'px', 'top': '525px'});
@@ -87,9 +134,11 @@ function renderTree(type, ground, x, y, z, scale) {
 }
 
 // Render Mushrooms
+var mushroomsX = 0;
 mushrooms = [];
 mushroomCount = 0;
 function renderMushrooms(){
+  $('#container').append('<div id="mushrooms"></div>');
   renderMushroom(0);
   renderMushroom(1);
   renderMushroom(2);
@@ -112,7 +161,7 @@ function renderMushroom(tree, x, y, z, frame, name) {
       name: name
     };
     mushrooms.push(mushroom);
-    $('#container').append('<img id="mushroom-' + mushroom.id + '" class="mushroom" src="assets/mushroom/00' + mushroom.frame + '.png"/>');
+    $('#mushrooms').append('<img id="mushroom-' + mushroom.id + '" class="mushroom" src="assets/mushroom/00' + mushroom.frame + '.png"/>');
     $('#mushroom-' + mushroom.id).css({"left": mushroom.x, "top": mushroom.y + 'px' });
     mushroomCount += 1;
     $('#marker-' + tree.id).css({'left': tree.x + tree.center - 5 + 'px', 'top': '525px'});
@@ -144,6 +193,7 @@ function varyMushroom(i) {
 grasses = [];
 grassesCount = 0;
 function renderGrasses(){
+  $('#container').append('<div id="grasses"></div>');
   renderGrass(0);
   renderGrass(1);
   renderGrass(2);
@@ -166,7 +216,7 @@ function renderGrass(tree, x, y, z, frame, name) {
       name: name
     };
     grasses.push(grass);
-    $('#container').append('<img id="grass-' + grass.id + '" class="grass" src="assets/grass/00' + grass.frame + '.png"/>');
+    $('#grasses').append('<img id="grass-' + grass.id + '" class="grass" src="assets/grass/00' + grass.frame + '.png"/>');
     $('#grass-' + grass.id).css({"left": grass.x, "top": grass.y + 'px' });
     grassesCount += 1;
     $('#marker-' + tree.id).css({'left': tree.x + tree.center - 5 + 'px', 'top': '525px'});
@@ -196,7 +246,14 @@ function varyGrass(i, tree) {
   }
 }
 
-
+function update() {
+  mushroomsX += 0.25;
+  $('#grounds').css({'left':mushroomsX + 'px'});
+  $('#trees').css({'left':mushroomsX + 'px'});
+  $('#mushrooms').css({'left':mushroomsX + 'px'});
+  $('#grasses').css({'left':mushroomsX + 'px'});
+  requestAnimationFrame(update);
+}
 
 $(document).ready(function() {
   renderBackground('peru');
@@ -204,6 +261,7 @@ $(document).ready(function() {
   renderTrees();
   renderMushrooms();
   renderGrasses();
+  update();
 });
 
 
